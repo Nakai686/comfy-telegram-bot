@@ -1,0 +1,79 @@
+# Telegram-бот: ComfyUI + Flux
+
+Генерация и редактирование картинок через локальный ComfyUI прямо из Telegram.
+
+## Возможности
+- 🎨 **Генерация с нуля** — пришли текст → картинка (Flux dev).
+- 🖼 **Редактирование фото** — пришли фото с подписью-инструкцией → изменю (Flux Kontext).
+- 🔤 **Авто-перевод RU→EN** — пиши по-русски, бот сам переведёт для Flux.
+- 🎛 **Пресеты стилей** — фото / кино / аниме / арт / киберпанк / 3D.
+- ✨ **Улучшение промпта** — короткая идея → детальный промпт (HF).
+- ⚙️ **Настройки** — шаги, размер, перевод — кнопками.
+- 🔒 **Доступ по приглашению** — друг жмёт «Запросить доступ», тебе приходит запрос с кнопками ✅/❌.
+- 🕓 **Очередь заданий** — задания выполняются по очереди, переживают перезагрузку ПК.
+- 🟢/🔴 **Статус ПК** — тем, кто в очереди, приходит «онлайн/оффлайн».
+
+## Очередь и выключение ПК
+Бот работает, только когда ПК включён. Задания ставятся в очередь (`queue.json`) и
+переживают перезагрузку: при включении ПК очередь автоматически возобновляется,
+и тем, кто в ней, приходит «🟢 ПК снова онлайн».
+
+Чтобы при выключении ПК приходило «🔴 ПК выключается», один раз зарегистрируй задачу:
+правый клик по **`install_offline_task.ps1`** → «Выполнить с помощью PowerShell»
+(нужны права администратора).
+
+## Файлы
+- `bot.py` — бот (хендлеры, меню, FSM, middleware доступа).
+- `comfy.py` — клиент ComfyUI: автозапуск, workflow txt2img + Kontext, загрузка фото, прогресс.
+- `prompts.py` — перевод, улучшение, пресеты, тексты помощи.
+- `keyboards.py` — reply-меню и inline-кнопки.
+- `config.example.json` — шаблон настроек (скопировать в `config.json` и заполнить).
+- `notify_offline.py` + `install_offline_task.ps1` — уведомление «ПК выключается» через Планировщик.
+- `test_comfy.py` / `test_kontext.py` — проверка без Telegram.
+- `start.bat` — запуск бота.
+
+## Требования
+- Python 3.11+
+- [ComfyUI (portable)](https://github.com/comfyanonymous/ComfyUI) с моделями Flux:
+  `flux1-krea-dev_fp8_scaled` (или `flux1-dev-fp8`), `flux1-dev-kontext_fp8_scaled`,
+  `clip_l`, `t5xxl_fp8_e4m3fn_scaled`, `ae` (VAE).
+- Токен Telegram-бота от [@BotFather](https://t.me/BotFather).
+
+## Установка
+```bat
+git clone <repo-url>
+cd bot
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+copy config.example.json config.json
+```
+Затем открой `config.json` и заполни:
+- `telegram_token` — токен от @BotFather;
+- `comfy_portable_dir` / `comfy_output_dir` — пути к твоему ComfyUI;
+- `admin_id` и `allowed_users` — твой Telegram ID (узнать: команда `/id` в боте).
+
+> `config.json` и `users.json` в `.gitignore` — секреты и список доступа не попадают в репозиторий.
+
+## Запуск
+1. Двойной клик по **`start.bat`** (или `python bot.py`).
+2. Напиши боту `/start`, затем пиши промпт текстом или шли фото с подписью.
+
+ComfyUI запускать вручную не нужно — бот поднимает его сам при первом запросе
+(если `comfy_autostart: true`).
+
+## Команды
+- `/start`, `/help`, `/menu` — приветствие и меню.
+- Кнопки внизу: 💡 Помощь · 🎨 Стиль · ✨ Улучшить · ⚙️ Настройки · 🖼 Редактировать фото.
+
+## Настройки (config.json)
+- `allowed_users` — разрешённые Telegram ID (пусто = пускает всех).
+- `txt2img` / `kontext` — модели и параметры для каждого режима.
+- `translate.enabled` — авто-перевод.
+- `improve.hf_token` / `improve.model` — улучшение промптов через HF.
+
+## Проверка без Telegram
+```
+.venv\Scripts\python.exe test_comfy.py "a cat astronaut"
+.venv\Scripts\python.exe test_kontext.py test_output.png "change background to a forest"
+```

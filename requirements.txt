@@ -1,0 +1,4 @@
+aiogram>=3.0
+aiohttp>=3.9
+deep-translator>=1.11
+requests>=2.31

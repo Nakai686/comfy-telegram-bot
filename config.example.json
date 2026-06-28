@@ -1,0 +1,66 @@
+{
+  "telegram_token": "PASTE_YOUR_BOT_TOKEN_FROM_@BotFather",
+
+  "admin_id": 123456789,
+  "_comment_admin_id": "Владелец: ему приходят запросы на доступ. Узнать свой ID — команда /id в боте.",
+
+  "allowed_users": [123456789],
+  "_comment_allowed_users": "Базовый белый список. Одобренные через бота пишутся в users.json. Пусто [] = открыт для всех.",
+
+  "comfy_host": "127.0.0.1",
+  "comfy_port": 8188,
+
+  "cleanup_outputs": true,
+  "_comment_cleanup": "Удалять сгенерированные/присланные файлы с диска после отправки пользователю.",
+
+  "comfy_autostart": true,
+  "comfy_portable_dir": "D:\\AI\\ComfyUI_windows_portable",
+  "comfy_output_dir": "D:\\AI\\img",
+  "comfy_startup_timeout_sec": 240,
+
+  "txt2img": {
+    "engine": "unet",
+    "_comment_engine": "checkpoint = flux1-dev-fp8 (CheckpointLoaderSimple); unet = Krea (UNETLoader+DualCLIP+VAE).",
+    "checkpoint_name": "flux1-dev-fp8.safetensors",
+    "unet_name": "flux1-krea-dev_fp8_scaled.safetensors",
+    "clip_name1": "clip_l.safetensors",
+    "clip_name2": "t5xxl_fp8_e4m3fn_scaled.safetensors",
+    "vae_name": "ae.safetensors",
+    "width": 1024,
+    "height": 1024,
+    "steps": 28,
+    "guidance": 4.5,
+    "sampler_name": "euler",
+    "scheduler": "simple"
+  },
+
+  "kontext": {
+    "unet_name": "flux1-dev-kontext_fp8_scaled.safetensors",
+    "clip_name1": "clip_l.safetensors",
+    "clip_name2": "t5xxl_fp8_e4m3fn_scaled.safetensors",
+    "vae_name": "ae.safetensors",
+    "steps": 28,
+    "guidance": 2.5,
+    "sampler_name": "euler",
+    "scheduler": "simple"
+  },
+
+  "translate": {
+    "enabled": true,
+    "_comment": "Авто-перевод RU->EN перед отправкой в Flux (deep-translator, без ключа)."
+  },
+
+  "improve": {
+    "enabled": true,
+    "hf_token": "PASTE_YOUR_HUGGINGFACE_TOKEN_OR_LEAVE_EMPTY",
+    "model": "Qwen/Qwen2.5-7B-Instruct",
+    "_comment": "Кнопка '✨ Улучшить промпт' через HF Inference. Если упадёт — бот откатится на простой перевод."
+  },
+
+  "limits": {
+    "max_steps": 40,
+    "min_steps": 4,
+    "max_side": 1536,
+    "min_side": 256
+  }
+}

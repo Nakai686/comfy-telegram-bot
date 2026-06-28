@@ -1,0 +1,24 @@
+# Секреты и личные данные — НИКОГДА не коммитить
+config.json
+users.json
+
+# Runtime-состояние
+bot.lock
+queue.json
+last_prompts.json
+last_images/
+queue_images/
+
+# Сгенерированные/тестовые картинки
+*.png
+*.jpg
+*.jpeg
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Логи
+*.log
