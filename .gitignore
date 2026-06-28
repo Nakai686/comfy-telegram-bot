@@ -13,6 +13,9 @@ queue_images/
 *.png
 *.jpg
 *.jpeg
+# …но скриншоты для README в репозитории нужны
+!docs/img/
+!docs/img/*.png
 
 # Python
 .venv/
